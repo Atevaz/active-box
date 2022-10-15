@@ -1,4 +1,5 @@
 import 'package:active_box/constants/assets_manager.dart';
+import 'package:active_box/presentation/router/app_router_names.dart';
 import 'package:active_box/presentation/styles/colors.dart';
 import 'package:active_box/presentation/styles/icon_broken.dart';
 import 'package:active_box/presentation/view/box_view.dart';
@@ -44,7 +45,9 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, AppRouterNames.rCreatePasswordRoute);
+        },
         child: Icon(Icons.add),
         backgroundColor: AppColor.blue,
       ),
