@@ -22,14 +22,18 @@ class MyFormField extends StatelessWidget {
   final String? hintText;
   final String? labelText;
   final TextAlign textAlign;
+   final Color borderColor;
+    final int? maxLines;
 
   final Function()? suffixPressed;
 
   const MyFormField({
     Key? key,
     this.borderRadius = 15,
+    this.borderColor=AppColor.blue,
     required this.controller,
     required this.validateText,
+    required this.maxLines,
     this.suffixPressed,
     this.isPassword = false,
     required this.inputType,
@@ -46,6 +50,7 @@ class MyFormField extends StatelessWidget {
     return Container(
       height: 56.h,
       child: TextFormField(
+        maxLines: maxLines,
         readOnly: readOnly,
         controller: controller,
         validator: (value) {
@@ -79,8 +84,8 @@ class MyFormField extends StatelessWidget {
           border: const OutlineInputBorder(),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(borderRadius.r),
-            borderSide: const BorderSide(
-                    color: AppColor.blue,
+            borderSide:  BorderSide(
+                    color: borderColor,
                   ),
           ),
           focusedErrorBorder: OutlineInputBorder(
@@ -102,7 +107,7 @@ class MyFormField extends StatelessWidget {
                     width: 2.0,
                   ),
           ),
-          fillColor: AppColor.lightGrey,
+          fillColor: AppColor.backGroundColor,
           filled: true,
         ),
         style: const TextStyle(color: AppColor.black),

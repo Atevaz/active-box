@@ -30,7 +30,7 @@ class MyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: 60.h,
+      height: 50.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius.r),
       ),
