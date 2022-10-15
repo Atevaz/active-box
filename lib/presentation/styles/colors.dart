@@ -13,5 +13,5 @@ class AppColor{
   static const Color cyanBlue = Color(0xff064c80);
   static const Color lightCyanBlue = Color(0xffc7dcfb);
   static const Color gradusBlue = Color(0xff0868f9);
-  static  const Color backGroundColor =Color(0xfff7f8fc);
+  static  const Color backGroundColor =Color(0xffffffff);
 }

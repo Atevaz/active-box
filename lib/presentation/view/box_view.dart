@@ -1,6 +1,7 @@
 import 'package:active_box/constants/assets_manager.dart';
 import 'package:active_box/presentation/styles/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../wedgit/regular_text.dart';
 
@@ -17,7 +18,7 @@ class BoxView extends StatelessWidget {
       crossAxisSpacing: 10,
       childAspectRatio: 2 / 2,
       children: List.generate(
-        6,
+        8,
             (index) => InkWell(
               onTap: (){
                 /// routing
@@ -25,10 +26,12 @@ class BoxView extends StatelessWidget {
               child: Container(
                   width: 150,
                   height: 190,
-                  decoration: const BoxDecoration(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  decoration:  BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.r),
                     image: DecorationImage(
                         image: AssetImage(
-                          AssetsManager.boxBackgroundPath,
+                          AssetsManager.boxBackgroundPath1,
                         ),
                         fit: BoxFit.contain),
                   ),
