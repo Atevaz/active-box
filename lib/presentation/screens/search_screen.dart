@@ -28,7 +28,7 @@ class SearchScreen extends StatelessWidget {
                           validateText: '',
                           inputType: TextInputType.text,
                           hintText: 'بحث',
-
+                          maxLines: 1,
                         )),
                     SizedBox(
                       width: 10.w,
