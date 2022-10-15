@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+              children: const [
                 BoxView(),
               ],
             ),
@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
           Navigator.pushNamed(context, AppRouterNames.rCreatePasswordRoute);
         },
         child: Icon(Icons.add),
-        backgroundColor: AppColor.blue,
+        backgroundColor: AppColor.black,
       ),
     );
   }

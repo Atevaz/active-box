@@ -11,7 +11,7 @@ class RegularText extends StatelessWidget {
   final bool isLineThrow;
   final int? maxLines;
   final TextAlign? textAlign;
-  final TextOverflow overflow;
+  final TextOverflow? overflow;
 
   const RegularText({
     Key? key,
@@ -19,7 +19,7 @@ class RegularText extends StatelessWidget {
     this.color,
     this.fontSize = 16,
     this.maxLines,
-    this.overflow = TextOverflow.ellipsis,
+    this.overflow ,
     this.textAlign,
     this.lineHeight = 1,
     this.isLineThrow = false,
@@ -39,7 +39,7 @@ class RegularText extends StatelessWidget {
             : TextDecoration.lineThrough,
         height: lineHeight,
       ),
-      maxLines: maxLines,
+
       textAlign: textAlign,
     );
   }

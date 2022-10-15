@@ -17,14 +17,14 @@ class AppRouter {
         );
       case AppRouterNames.rAddNoteRoute:
         return MaterialPageRoute(
-          builder: (_) => const Directionality(
+          builder: (_) =>  Directionality(
             textDirection: TextDirection.rtl,
             child: AddNoteScreen(),
           ),
         );
       case AppRouterNames.rCreatePasswordRoute:
         return MaterialPageRoute(
-          builder: (_) => const Directionality(
+          builder: (_) =>  Directionality(
             textDirection: TextDirection.rtl,
             child: CreateNewPasswordScreen(),
           ),
