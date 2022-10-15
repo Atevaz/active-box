@@ -43,8 +43,8 @@ class MyFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: BorderRadius.circular(borderRadius.r),
+    return Container(
+      height: 56.h,
       child: TextFormField(
         readOnly: readOnly,
         controller: controller,
@@ -58,23 +58,24 @@ class MyFormField extends StatelessWidget {
         keyboardType: inputType,
         textAlign: textAlign,
         decoration: InputDecoration(
-          suffixIcon: IconButton(
+          suffixIcon:prefix == null ? null : IconButton(
             onPressed: suffixPressed,
             icon: Icon(
               suffix,
               color: AppColor.greyOfText,
             ),
           ),
-          prefixIcon: Icon(
+          prefixIcon: prefix == null ? null :Icon(
             prefix,
             color: AppColor.greyOfText,
           ),
           hintText: hintText ,
           labelText: labelText ,
+
           labelStyle:
               const TextStyle(color: AppColor.greyOfText),
           hintStyle:
-              const TextStyle(color: AppColor.greyOfText),
+              const TextStyle(color: AppColor.greyOfText,height:1),
           border: const OutlineInputBorder(),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(borderRadius.r),
