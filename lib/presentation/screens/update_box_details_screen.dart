@@ -1,3 +1,5 @@
+import 'package:active_box/business_logic/main_cubit/main_cubit.dart';
+import 'package:active_box/data/models/note_model.dart';
 import 'package:active_box/presentation/styles/colors.dart';
 import 'package:active_box/presentation/styles/icon_broken.dart';
 import 'package:active_box/presentation/wedgit/headline_text.dart';
@@ -5,71 +7,111 @@ import 'package:active_box/presentation/wedgit/medium_text.dart';
 import 'package:active_box/presentation/wedgit/my_button.dart';
 import 'package:active_box/presentation/wedgit/regular_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UpdateBoxDetailsScreen extends StatelessWidget {
-  const UpdateBoxDetailsScreen({Key? key}) : super(key: key);
+  final NoteModel noteModel;
+
+  const UpdateBoxDetailsScreen({Key? key,required this.noteModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(IconBroken.Arrow___Right),
-        ),
-        actions: [
-
-          IconButton(
-            onPressed: () {
-              /// routing
-            },
-            icon: Icon(IconBroken.Edit),
-          ),
-          IconButton(
-            onPressed: () {
-              /// routing
-            },
-            icon: Icon(IconBroken.Lock),
-          ),
-          SizedBox(
-            width: 10.w,
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.all(18.r),
-          child: SizedBox(
-            width: double.infinity,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const MediumText(
-                  text: 'التصنيف',
-                  color: AppColor.blue,
+    var titleController = TextEditingController();
+    var detailsController = TextEditingController();
+    var formKey = GlobalKey<FormState>();
+    return BlocConsumer<MainCubit, MainState>(
+      listener: (context, state) {
+      },
+      builder: (context, state) {
+        titleController.text = noteModel.title!;
+        detailsController.text = noteModel.details!;
+        return Scaffold(
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(18.0.r),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children:
+                    [
+                      Row(
+                        children:
+                        [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(
+                              IconBroken.Arrow___Right, color: AppColor.blue,
+                            ),
+                          ),
+                          SizedBox(width: 10.w,),
+                          Expanded(
+                            child: TextFormField(
+                              maxLines: 1,
+                              controller: titleController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return 'من فضلك ادخل العنوان';
+                                }
+                                return null;
+                              },
+                              keyboardType: TextInputType.text,
+                              textAlign: TextAlign.start,
+                              decoration:  InputDecoration(
+                                //hintText: noteModel.title!,
+                                hintStyle:
+                                TextStyle(color: AppColor.greyOfText),
+                                border: InputBorder.none,
+                                fillColor: AppColor.backGroundColor,
+                                filled: true,
+                              ),
+                              style: const TextStyle(color: AppColor.black),
+                            ),
+                          )
+                        ],
+                      ),
+                      TextFormField(
+                        maxLines: 1000,
+                        controller: detailsController,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'من فضلك ادخل المحتوي';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.multiline,
+                        textAlign: TextAlign.start,
+                        decoration:  InputDecoration(
+                          //hintText: noteModel.details!,
+                          hintStyle:
+                          TextStyle(color: AppColor.greyOfText),
+                          border: InputBorder.none,
+                          fillColor: AppColor.backGroundColor,
+                          filled: true,
+                        ),
+                        style: const TextStyle(color: AppColor.black),
+                      ),
+                    ],
+                  ),
                 ),
-                const HeadLineText(
-                  text: 'عنوان الصندوق',
-                  maxLines: 10,
-                ),
-                RegularText(
-                  fontSize: 20.sp,
-                  text:
-                  'مره كنت بلعب كورة مره كنت بلعب كورةمره كنت بلعب كورة مره كنت بلعب كورةمره كنت بلعب كورة مره كنت بلعب كورةمره كنت بلعب كورة مره كنت بلعب كورة ',
-                )
-              ],
+              ),
             ),
           ),
-        ),
-      ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(18.r),
-        child: MyButton(onPressed: (){},text: 'تعديل',),
-      )
+          bottomNavigationBar: Padding(
+            padding: EdgeInsets.all(18.r),
+            child: MyButton(onPressed: () {
+              if (formKey.currentState!.validate()) {
+                MainCubit.get(context).updateNoteDetails(noteModel.id, title: titleController.text, details: detailsController.text, password: noteModel.password??'', idNote: noteModel.id!);
+              }
+            }, text: 'تعديل',),
+          ),
+
+        );
+      },
     );
   }
 }
