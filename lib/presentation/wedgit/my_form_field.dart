@@ -26,6 +26,8 @@ class MyFormField extends StatelessWidget {
     final int? maxLines;
 
   final Function()? suffixPressed;
+  final void Function(String)? onChanged;
+
 
   const MyFormField({
     Key? key,
@@ -35,6 +37,7 @@ class MyFormField extends StatelessWidget {
     required this.validateText,
     required this.maxLines,
     this.suffixPressed,
+    this.onChanged,
     this.isPassword = false,
     required this.inputType,
     this.hintText,
@@ -52,6 +55,7 @@ class MyFormField extends StatelessWidget {
       child: TextFormField(
         maxLines: maxLines,
         readOnly: readOnly,
+        onChanged: onChanged,
         controller: controller,
         validator: (value) {
           if (value!.isEmpty) {
