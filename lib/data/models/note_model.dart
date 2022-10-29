@@ -8,7 +8,7 @@ class NoteModel {
 
   NoteModel.fromJson(Map<String,dynamic>json)
   {
-    id = json['id'] as String;
+    id = json['id'] as String ;
     password = json['password'];
     title = json['title']as String;
     details = json['details']as String;
@@ -17,8 +17,8 @@ class NoteModel {
   Map<String,dynamic> toMap()
   {
     return{
-      'id':id,
-      'password':password,
+      'id':id ?? '',
+      'password':password ,
       'title':title,
       'details': details,
     };

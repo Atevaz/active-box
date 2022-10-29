@@ -22,7 +22,7 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const HeadLineText(
-          text: 'الصندوق التفاعلى',
+          text: 'الصندوق التفاعلي',
           color: AppColor.blue,
         ),
         centerTitle: true,

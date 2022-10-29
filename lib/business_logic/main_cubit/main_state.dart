@@ -35,4 +35,14 @@ class DeleteNoteErrorState extends MainState
 
 class GetSearchNotesSuccessState  extends MainState {}
 
+class WriteArabicState  extends MainState {}
+class WriteSmallEnglishState  extends MainState {}
+class WriteCapitalEnglishState  extends MainState {}
+class WriteSymbolState  extends MainState {}
+class WriteNumberState  extends MainState {}
+class WriteTallPasswordState  extends MainState {}
+class NotWriteArabicOrEnglishOrSymbolOrNumbersState  extends MainState {}
+class ChangePasswordVisiabilityState extends MainState {}
+
+
 
