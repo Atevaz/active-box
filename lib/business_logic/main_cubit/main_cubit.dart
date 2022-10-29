@@ -1,7 +1,9 @@
 import 'package:active_box/data/models/note_model.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 
@@ -12,6 +14,8 @@ class MainCubit extends Cubit<MainState> {
 
   static MainCubit get(context) => BlocProvider.of(context);
 
+
+
   Future<void> addNote({
     required String title,
     required String details,
@@ -20,13 +24,14 @@ class MainCubit extends Cubit<MainState> {
     NoteModel noteModel = NoteModel(
       title: title,
       details: details,
+
     );
     note = await FirebaseFirestore.instance
         .collection('notes')
         .add(noteModel.toMap());
     FirebaseFirestore.instance.collection('notes').doc(note.id).update({
-      'id': note.id,
-      'password': noteModel.password,
+      'id': note.id ?? '',
+      'password': noteModel.password ,
       'title': noteModel.title,
       'details': noteModel.details,
     }).then((value) {
@@ -55,7 +60,7 @@ class MainCubit extends Cubit<MainState> {
     String? id, {
     required String title,
     required String details,
-    required String password,
+    String? password,
     required String idNote,
   }) async {
     NoteModel noteModel = NoteModel(
@@ -98,4 +103,99 @@ class MainCubit extends Cubit<MainState> {
     print(searchNote.length);
     emit(GetSearchNotesSuccessState());
   }
+
+  bool isArabic = false ;
+  bool isSmallEnglish = false ;
+  bool isCapitalEnglish = false ;
+  bool isSymbols = false ;
+  bool isNumbers = false ;
+  bool isTall = false ;
+
+  void checkPasswordArabicValidation (String value){
+    if (value.contains(RegExp(r"(?=.*[\u0600-\u06ff]|[\u0750-\u077f]|[\ufb50-\ufc3f]|[\ufe70-\ufefc])")) == true) {
+      isArabic = true ;
+      emit(WriteArabicState());
+    }
+    else {
+      isArabic = false;
+      emit(NotWriteArabicOrEnglishOrSymbolOrNumbersState());
+    }
+
+   }
+
+  void checkPasswordSmallEnglishValidation (String value) {
+    if (value.contains(RegExp(r"(?=.*[a-z])")) ==
+        true) {
+      isSmallEnglish = true;
+      emit(WriteSmallEnglishState());
+    }
+    else {
+      isSmallEnglish = false;
+      emit(NotWriteArabicOrEnglishOrSymbolOrNumbersState());
+    }
+  }
+
+  void checkPasswordCapitalEnglishValidation (String value) {
+    if (value.contains(RegExp(r"(?=.*[A-Z])")) ==
+        true) {
+      isCapitalEnglish = true;
+      emit(WriteCapitalEnglishState());
+    }
+    else {
+      isCapitalEnglish = false;
+      emit(NotWriteArabicOrEnglishOrSymbolOrNumbersState());
+    }
+  }
+  void checkPasswordSymbolEnglishValidation (String value) {
+    if (value.contains(RegExp(r"(?=.*[!@#$%^&+_;*(),.?:{}|<>])")) ==
+        true) {
+      isSymbols = true;
+      emit(WriteSymbolState());
+    }
+    else {
+      isSymbols = false;
+      emit(NotWriteArabicOrEnglishOrSymbolOrNumbersState());
+    }
+  }
+
+  void checkPasswordNumberEnglishValidation (String value) {
+    if (value.contains(RegExp(r"(?=.*\d)")) ==
+        true) {
+      isNumbers = true;
+      emit(WriteNumberState());
+    }
+    else {
+      isNumbers = false;
+      emit(NotWriteArabicOrEnglishOrSymbolOrNumbersState());
+    }
+  }
+  void checkPasswordLengthValidation (String value) {
+    if (value.length >= 25) {
+      isTall = true;
+      emit(WriteTallPasswordState());
+    }
+    else {
+      isTall = false;
+      emit(NotWriteArabicOrEnglishOrSymbolOrNumbersState());
+    }
+  }
+
+  IconData prefix = Icons.visibility ;
+  bool isPassword = true ;
+
+  void changePasswordVisiability(){
+    isPassword = !isPassword ;
+    prefix = isPassword ?  Icons.visibility : Icons.visibility_off ;
+    // emit(ChangePasswordVisiabilityState());
+  }
+
+  IconData prefix1 = Icons.visibility ;
+  bool isPassword1 = true ;
+
+  void changePasswordVisiability1(){
+    isPassword1 = !isPassword1 ;
+    prefix1 = isPassword1 ?  Icons.visibility : Icons.visibility_off ;
+    emit(ChangePasswordVisiabilityState());
+  }
+
 }

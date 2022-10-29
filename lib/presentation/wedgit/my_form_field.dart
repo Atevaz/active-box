@@ -1,4 +1,6 @@
 
+import 'dart:ui';
+
 import 'package:active_box/presentation/styles/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,8 +53,12 @@ class MyFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 56.h,
+      height: 70.h,
       child: TextFormField(
+        cursorHeight: 30.h,
+        scrollController: ScrollController(),
+        textDirection: TextDirection.rtl,
+        scrollPadding: EdgeInsets.all(20.r),
         maxLines: maxLines,
         readOnly: readOnly,
         onChanged: onChanged,
@@ -67,7 +73,7 @@ class MyFormField extends StatelessWidget {
         keyboardType: inputType,
         textAlign: textAlign,
         decoration: InputDecoration(
-          suffixIcon:prefix == null ? null : IconButton(
+          suffixIcon:suffix == null ? null : IconButton(
             onPressed: suffixPressed,
             icon: Icon(
               suffix,
@@ -98,6 +104,12 @@ class MyFormField extends StatelessWidget {
               color: AppColor.red,
             ),
           ),
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius.r),
+            borderSide: const BorderSide(
+              color: AppColor.red,
+            ),
+          ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(borderRadius.r),
             borderSide: const BorderSide(
@@ -114,7 +126,7 @@ class MyFormField extends StatelessWidget {
           fillColor: AppColor.backGroundColor,
           filled: true,
         ),
-        style: const TextStyle(color: AppColor.black),
+
       ),
     );
   }

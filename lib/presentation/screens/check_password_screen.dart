@@ -1,101 +1,115 @@
+import 'package:active_box/business_logic/global_cubit/global_cubit.dart';
 import 'package:active_box/data/models/note_model.dart';
 import 'package:active_box/presentation/router/app_router_names.dart';
 import 'package:active_box/presentation/styles/colors.dart';
+import 'package:active_box/presentation/styles/icon_broken.dart';
 import 'package:active_box/presentation/wedgit/headline_text.dart';
+import 'package:active_box/presentation/wedgit/medium_text.dart';
 import 'package:active_box/presentation/wedgit/my_button.dart';
+import 'package:active_box/presentation/wedgit/my_form_field.dart';
 import 'package:active_box/presentation/wedgit/show_toast.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../business_logic/main_cubit/main_cubit.dart';
 
 class CheckPasswordScreen extends StatelessWidget {
   final NoteModel noteModel;
 
-  const CheckPasswordScreen({Key? key,required this.noteModel}) : super(key: key);
+  CheckPasswordScreen({Key? key, required this.noteModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var passwordController = TextEditingController();
     var formKey = GlobalKey<FormState>();
 
-    return Scaffold(
-      body: Center(
-        child: Form(
-          key: formKey,
-          child: Padding(
-            padding:  EdgeInsets.all(18.0.r),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children:
-              [
-                HeadLineText(text: 'الرقم السري',maxLines: 1,textAlign: TextAlign.center,),
-                SizedBox(height: 15.h,),
-                TextFormField(
-                  maxLines: 1,
-                  controller: passwordController,
-                  validator: (value){
-                    if(value!.isEmpty){
-                      return "من فضلك ادخل الرقم السري";
-                    }
-
-                  },
-                  keyboardType: TextInputType.visiblePassword,
-                  textAlign: TextAlign.start,
-                  autofocus: true,
-
-                  decoration:  InputDecoration(
-                    hintText: 'الرقم السري' ,
-                    hintStyle:
-                    TextStyle(color: AppColor.greyOfText),
-                    fillColor: AppColor.backGroundColor,
-                    filled: true,
-                    border: const OutlineInputBorder(),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide:  BorderSide(
-                        color: AppColor.blue,
+    return BlocConsumer<MainCubit, MainState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        return BlocConsumer<GlobalCubit, GlobalState>(
+  listener: (context, state) {
+    // TODO: implement listener
+  },
+  builder: (context, state) {
+    return WillPopScope(
+      onWillPop: ()async{
+        Navigator.pop(context);
+        GlobalCubit.get(context).donePassword();
+        return false;
+      },
+      child: Scaffold(
+            body: Center(
+              child: Form(
+                key: formKey,
+                child: Padding(
+                  padding: EdgeInsets.all(18.0.r),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const HeadLineText(
+                        text: 'ادخال كلمة المرور',
+                        maxLines: 1,
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: const BorderSide(
-                        color: AppColor.red,
+                      SizedBox(
+                        height: 15.h,
                       ),
-                    ),
-                    errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: const BorderSide(
-                        color: AppColor.red,
+                      MyFormField(
+                        controller: passwordController,
+                        validateText: 'من فضلك ادخل كلمة المرور',
+                        maxLines: 1,
+                        inputType: TextInputType.text,
+                        hintText: 'كلمة المرور',
+                        prefix: IconBroken.Lock,
+                        suffixPressed: () {
+                          MainCubit.get(context).changePasswordVisiability1();
+                        },
+                        suffix: MainCubit.get(context).prefix1,
+                        isPassword: MainCubit.get(context).isPassword1,
                       ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide:  const BorderSide(
-                        color: AppColor.lightGrey,
-                        width: 2.0,
+                      SizedBox(
+                        height: 15.h,
                       ),
-                    ),
+                      MyButton(
+                        onPressed: () {
+                          if (formKey.currentState!.validate()) {
+                            if (passwordController.text == noteModel.password) {
+                              Navigator.pushReplacementNamed(
+                                  context, AppRouterNames.rBoxDetailsScreenRoute,
+                                  arguments: noteModel);
+                              GlobalCubit.get(context).donePassword();
+                            } else {
+                              GlobalCubit.get(context).ifWrongPassword();
+                            }
+                          }
+                        },
+                        text: 'تاكيد',
+                      ),
+                      if (state is WrongPasswordState)
+                        Column(
+                          children: [
+                            SizedBox(
+                              height: 10.h,
+                            ),
+                            MediumText(
+                              text: 'الرقم السرى غير مطابق',
+                              color: AppColor.red,
+                            ),
+                          ],
+                        ),
+                    ],
                   ),
-                  style: const TextStyle(color: AppColor.black),
                 ),
-                SizedBox(height: 15.h,),
-                MyButton(onPressed: (){
-                  if(formKey.currentState!.validate())
-                  {
-                    if(passwordController.text == noteModel.password)
-                    {
-                      Navigator.pushNamed(context, AppRouterNames.rBoxDetailsScreenRoute,arguments: noteModel);
-                    }
-                    else{
-                      showToast(text: 'الرقم السري غير مطابق', state: ToastStates.ERROR);
-                    }
-                  }
-                }, text: 'تاكيد')
-
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+    );
+  },
+);
+      },
     );
   }
 }

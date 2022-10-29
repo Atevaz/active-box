@@ -16,4 +16,15 @@ class GlobalCubit extends Cubit<GlobalState> {
     suffix = isPassword ?  Icons.visibility : Icons.visibility_off ;
     emit(ChangePasswordVisiabilityState());
   }
+
+  bool wrongPassword = false ;
+
+  void ifWrongPassword(){
+    wrongPassword = !wrongPassword ;
+    emit(WrongPasswordState());
+  }
+  void donePassword(){
+    wrongPassword = false ;
+    emit(DonePasswordState());
+  }
 }

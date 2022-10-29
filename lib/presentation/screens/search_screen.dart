@@ -23,7 +23,7 @@ class SearchScreen extends StatelessWidget {
           body: SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Padding(
-              padding: EdgeInsets.only(top: 40.h),
+              padding: EdgeInsets.only(top: 35.h),
               child: Padding(
                 padding: EdgeInsets.all(18.r),
                 child: Column(
@@ -42,22 +42,22 @@ class SearchScreen extends StatelessWidget {
                                 MainCubit.get(context).getSearchNote(value);
                               },
                             )),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Container(
-                          height: 56.h,
-                          width: 56.w,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.r),
-                              color: AppColor.blue
-                          ),
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              IconBroken.Search, color: AppColor.white,),
-                          ),
-                        )
+                        // SizedBox(
+                        //   width: 10.w,
+                        // ),
+                        // Container(
+                        //   height: 56.h,
+                        //   width: 56.w,
+                        //   decoration: BoxDecoration(
+                        //       borderRadius: BorderRadius.circular(15.r),
+                        //       color: AppColor.blue
+                        //   ),
+                        //   child: IconButton(
+                        //     onPressed: () {},
+                        //     icon: Icon(
+                        //       IconBroken.Search, color: AppColor.white,),
+                        //   ),
+                        // )
                       ],
                     ),
                     ConditionalBuilder(
